@@ -1,24 +1,37 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Login from './components/Login';
+import Register from './components/Register';
+import { useAuthContext } from './contexts/authContext';
+import ChatRoom from './components/ChatRoom';
 
 function App() {
+  const { checkAuth } = useAuthContext();
+  useEffect(() => {
+    const authenticate = async () => {
+        await checkAuth();
+    };
+    authenticate();
+}, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+            <BrowserRouter>
+                <Routes>
+                        <Route path="/" element={<Login />}/>
+                        <Route path="/login" element={<Login />}/>
+                        <Route path="/chat-room/*" element={<ChatRoom /> } /> 
+                        <Route path="/register" element={<Register/> } /> 
+                    
+                
+                        
+                </Routes>
+            </BrowserRouter>
+           
+             
+        </div>
   );
 }
 
